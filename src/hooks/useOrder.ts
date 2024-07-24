@@ -3,10 +3,12 @@ import type { MenuItem, OrderItem } from "../types";
 
 export default function useOrder() {
   const [order, setOrder] = useState<OrderItem[]>([]);
+  const [tip, setTip] = useState(0)
+
 
   /**
    * Each time when listen for a click on the menu, the menu is added or incremented
-   */
+  */
   const addItem = (item: MenuItem) => {
     const itemExist = order.find((orderItem) => orderItem.id == item.id);
     if (itemExist) {
@@ -23,15 +25,26 @@ export default function useOrder() {
   };
 
   /**
-   *
+   * Removes an item from the order
    */
   const removeItem = (id: MenuItem['id']) => {
     setOrder(order.filter(item => item.id !== id))
   };
 
+  /**
+   * Clear the order and start again
+   */
+  const placeOrder = () => {
+    setOrder([])
+    setTip(0)
+  }
+
   return {
     order,
+    tip,
+    setTip,
     addItem,
     removeItem,
+    placeOrder
   };
 }
